@@ -1,7 +1,6 @@
 package com.temas.netlobby.auth
 
-import com.temas.netlobby.core.AuthRequest
-import com.temas.netlobby.core.MessageHandler
+import com.temas.netlobby.core.*
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.buffer.Unpooled
 import io.netty.channel.*
@@ -13,25 +12,21 @@ import io.netty.handler.logging.LoggingHandler
 import io.netty.handler.ssl.SslContext
 import io.netty.handler.ssl.SslContextBuilder
 import io.netty.handler.ssl.util.SelfSignedCertificate
+import java.util.*
 
 
-class AuthService : MessageHandler<AuthRequest>{
+class AuthService {
 
 
-
-
-    class HandshakeServerHandler : SimpleChannelInboundHandler<Any?>() {
-
-        override fun channelReadComplete(ctx: ChannelHandlerContext) {
-            ctx.flush()
-        }
-
-        override fun channelRead0(ctx: ChannelHandlerContext, msg: Any?) {
-//            ctx.write(response)
-            ctx.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE)
+    object HandshakeServerHandler : SimpleMessageHandler<Ping>() {
+        override fun handle(ctx: ChannelHandlerContext, message: Ping) {
+            ctx.writeAndFlush(Pong)
         }
     }
 
-    override fun handle(message: AuthRequest) {
+    object LoginHandler : SimpleMessageHandler<AuthRequest>() {
+        override fun handle(ctx: ChannelHandlerContext, message: AuthRequest) {
+            ctx.writeAndFlush(SuccessAuthResponse(message.login, UUID.randomUUID()))
+        }
     }
 }
