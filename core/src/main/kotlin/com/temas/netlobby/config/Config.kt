@@ -3,7 +3,6 @@ package com.temas.netlobby.config
 import com.temas.netlobby.auth.AuthService
 import com.temas.netlobby.auth.ClientHandler
 import com.temas.netlobby.core.*
-import io.netty.channel.ChannelHandler
 import io.netty.channel.ChannelInitializer
 import io.netty.handler.ssl.SslContext
 import io.netty.handler.ssl.SslContextBuilder
@@ -37,10 +36,10 @@ val channelModule = module {
 }
 
 val clientModule = module {
-    single { ResponseAcceptor() }
+    single { RequestManager() }
 
     single(named("channelHandlers")) {
-        listOf(ClientHandler(get<ResponseAcceptor>()::acceptPong), ClientHandler(get<ResponseAcceptor>()::acceptAuth))
+        listOf(ClientHandler(get<RequestManager>()::acceptPong), ClientHandler(get<RequestManager>()::acceptAuth))
     }
 
     single { TCPClient(get()) }

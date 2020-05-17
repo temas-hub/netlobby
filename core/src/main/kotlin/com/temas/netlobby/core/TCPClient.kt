@@ -8,33 +8,30 @@ import io.netty.channel.EventLoopGroup
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioSocketChannel
-import java.io.IOException
+import java.util.concurrent.CompletableFuture
 
 
 class TCPClient(private val channelInitializer: ChannelInitializer<SocketChannel>) {
+//    private lateinit var channel : Channel
 
-    private lateinit var channel : Channel
-
-    fun init(host: String, port: Int) {
+    fun connect(host: String, port: Int): ChannelFuture {
         val group: EventLoopGroup = NioEventLoopGroup()
-        try {
-            val b = Bootstrap()
-            b.group(group)
-                    .channel(NioSocketChannel::class.java)
-                    .handler(channelInitializer)
+        val b = Bootstrap()
+        b.group(group)
+                .channel(NioSocketChannel::class.java)
+                .handler(channelInitializer)
 
-            // Make the connection attempt.
-            channel = b.connect(host, port).sync().channel()
-            channel.closeFuture().sync()
-        } catch (e : IOException) {
-            //TODO
-            println(e)
-        } finally {
-            group.shutdownGracefully();
-        }
+        // Make the connection attempt.
+        return b.connect(host, port)
+                .addListener { f -> if (!f.isSuccess) println(f.cause()) }
     }
 
-    fun send(msg : Message): ChannelFuture {
-        return channel.writeAndFlush(msg)
+    fun send(host: String, port: Int, msg : Message): ChannelFuture {
+        val channelFuture = connect(host, port)
+        return channelFuture.channel().writeAndFlush(msg)
+    }
+
+    fun sendLogin(channel : Channel, authRequest: AuthRequest) {
+        channel.writeAndFlush(authRequest)
     }
 }

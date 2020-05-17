@@ -30,24 +30,25 @@ class TestLogin : KoinTest {
         modules(serializationModule, channelModule, clientModule, testModule)
     }
 
-    @Test
-    fun `ping server successfully` () {
-        val client: ClientComponent by inject()
-        val pingProcess = client.ping()
-        val result = pingProcess.get()
-        assertNotNull(result)
-    }
-
 //    @Test
-//    fun `login to server successfully`() {
-//        val client = Client()
-//        val loginProcess = client.login(SERVER_HOST, SERVER_PORT, EMAIL)
-//        val session = loginProcess.waitFor()
-//        assertNotNull(session.getSessionId())
-//
-//        //wait for lobby
+//    fun `ping server successfully` () {
+//        val client: ClientComponent by inject()
+//        val pingProcess = client.ping()
+//        val result = pingProcess.get()
+//        assertNotNull(result)
+//    }
+
+    @Test
+    fun `login to server successfully`() {
+        val client: ClientComponent by inject()
+        val loginProcess = client.login(SERVER_HOST, SERVER_PORT, EMAIL)
+        val session = loginProcess.get()
+        assertNotNull(session)
+        assertNotNull(session.sessionId)
+
+        //wait for lobby
 //        val lobbyResult = session.joinLobby().waitFor()
 //        assertNotNull(lobbyResult.getLobbyId())
-//    }
+    }
 
 }
