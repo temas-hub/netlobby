@@ -3,6 +3,7 @@ package com.temas.netlobby.core
 import com.temas.netlobby.config.channelModule
 import com.temas.netlobby.config.clientModule
 import com.temas.netlobby.config.serializationModule
+import com.temas.netlobby.config.serverModule
 import junit.framework.Assert.assertNotNull
 import junit.framework.Assert.assertTrue
 import org.junit.Rule
@@ -20,14 +21,14 @@ class TestLogin : KoinTest {
     }
 
     val testModule = module {
-        single { ClientComponent() }
+//        single { ClientComponent() }
     }
 
     @get:Rule
     val koinTestRule = KoinTestRule.create {
         printLogger()
         environmentProperties()
-        modules(serializationModule, channelModule, clientModule, testModule)
+        modules(serializationModule, channelModule, serverModule, testModule)
     }
 
 //    @Test
@@ -40,11 +41,11 @@ class TestLogin : KoinTest {
 
     @Test
     fun `login to server successfully`() {
-        val client: ClientComponent by inject()
-        val loginProcess = client.login(SERVER_HOST, SERVER_PORT, EMAIL)
-        val session = loginProcess.get()
-        assertNotNull(session)
-        assertNotNull(session.sessionId)
+//        val client: ClientComponent by inject()
+//        val loginProcess = client.login(SERVER_HOST, SERVER_PORT, EMAIL)
+//        val session = loginProcess.get()
+//        assertNotNull(session)
+//        assertNotNull(session.sessionId)
 
         //wait for lobby
 //        val lobbyResult = session.joinLobby().waitFor()

@@ -1,8 +1,12 @@
 package com.temas.netlobby.config
 
-import com.temas.netlobby.auth.AuthService
-import com.temas.netlobby.auth.ClientHandler
+import com.temas.netlobby.UdpUpstreamHandler
+import com.temas.netlobby.client.UDPClient
 import com.temas.netlobby.core.*
+import com.temas.netlobby.server.ServerSessionRegistry
+import com.temas.netlobby.server.SessionRegistry
+import com.temas.netlobby.server.UDPServer
+import com.temas.netlobby.server.UpdateSender
 import io.netty.channel.ChannelInitializer
 import io.netty.handler.ssl.SslContext
 import io.netty.handler.ssl.SslContextBuilder
@@ -24,31 +28,45 @@ val serializationModule = module {
 val channelModule = module {
 
     factory {
-        val sslCtx: SslContext?
-        sslCtx = if (getProperty("enableSSL","false").toBoolean()) {
+        val sslCtx: SslContext? = if (getProperty("enableSSL","false").toBoolean()) {
             val ssc = SelfSignedCertificate()
             SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey()).build()
         } else {
             null
         }
-        DefaultChannelInitializer(sslCtx, get(), get(), get(named("channelHandlers")), getProperty("maxMessageLength", 500))
+        DefaultChannelInitializer(sslCtx,
+                upSteamHandler = get(),
+                messageEncoder = get(),
+                channelHandlers = get(named("channelHandlers"))
+        )
     } bind ChannelInitializer::class
+
 }
 
 val clientModule = module {
-    single { RequestManager() }
 
-    single(named("channelHandlers")) {
-        listOf(ClientHandler(get<RequestManager>()::acceptPong), ClientHandler(get<RequestManager>()::acceptAuth))
+    single { UdpUpstreamHandler(serializer = get()) } bind UdpUpstreamHandler::class
+
+    single {
+        UDPClient(
+            get(),
+            getProperty("server.host", "localhost"),
+            getProperty("server.port", 17999)
+        )
     }
-
-    single { TCPClient(get()) }
 }
 
 val serverModule = module {
-    single(named("channelHandlers")) {
-        listOf(AuthService.HandshakeServerHandler, AuthService.LoginHandler)
+    single { ServerSessionRegistry() } bind SessionRegistry::class
+    single { UdpUpstreamHandler(sessionRegistry = get(),
+                                serializer = get()) }
+    single { UpdateSender(get()) }
+
+    single {
+        UDPServer(
+            get(),
+            getProperty("server.port", 17999)
+        )
     }
 
-    single { TCPServer(get()) }
 }

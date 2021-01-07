@@ -1,15 +1,15 @@
 plugins {
     id("com.android.application")
     kotlin("android")
-    kotlin("android.extensions")
+//    kotlin("android.extensions")
 }
 
 android {
-    compileSdkVersion(28)
+    compileSdkVersion(30)
     defaultConfig {
         applicationId = "com.temas.netlobby.android"
         minSdkVersion(15)
-        targetSdkVersion(28)
+        targetSdkVersion(30)
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"

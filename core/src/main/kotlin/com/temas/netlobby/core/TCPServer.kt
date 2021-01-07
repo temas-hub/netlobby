@@ -11,8 +11,6 @@ import io.netty.handler.logging.LoggingHandler
 class TCPServer(private val channelInitializer: ChannelInitializer<SocketChannel>) {
 
     fun init(sslEnabled: Boolean, port: Int) {
-
-
         val bossGroup: EventLoopGroup = NioEventLoopGroup(1)
         val workerGroup: EventLoopGroup = NioEventLoopGroup()
         try {
@@ -28,6 +26,4 @@ class TCPServer(private val channelInitializer: ChannelInitializer<SocketChannel
             workerGroup.shutdownGracefully()
         }
     }
-
-
 }
