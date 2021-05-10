@@ -11,13 +11,22 @@ import io.netty.channel.socket.nio.NioDatagramChannel
 class UDPServer(private val channelInitializer: ChannelInitializer<DatagramChannel>,
                 private val defaultPort: Int) {
 
+    private lateinit var bossGroup: EventLoopGroup
+    private lateinit var channel: ChannelFuture
 
     fun init(port: Int? = null): ChannelFuture {
-        val bossGroup: EventLoopGroup = NioEventLoopGroup(1)
+        bossGroup = NioEventLoopGroup(1)
         val bootstrap = Bootstrap()
-        return bootstrap.group(bossGroup)
+        channel = bootstrap.group(bossGroup)
                 .channel(NioDatagramChannel::class.java)
                 .handler(channelInitializer)
                 .bind(port ?: defaultPort)
+        return channel
+    }
+
+    fun destroy(): ChannelFuture {
+        return channel.channel().close().addListener {
+            bossGroup.shutdownGracefully()
+        }
     }
 }

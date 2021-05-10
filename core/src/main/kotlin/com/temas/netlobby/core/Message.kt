@@ -1,6 +1,7 @@
 package com.temas.netlobby.core
 
-import com.temas.netlobby.core.status.Status
+import com.temas.netlobby.core.status.Action
+import com.temas.netlobby.core.status.ServerState
 import java.io.Serializable
 import java.net.InetSocketAddress
 import java.util.*
@@ -18,7 +19,9 @@ data class AuthRequest(val login: String) : Message()
 sealed class AuthResponse(val login: String): Message()
 class SuccessAuthResponse(login: String, val sessionId: UUID) : AuthResponse(login)
 class FailedAuthResponse(login: String, val error: String) : AuthResponse(login)
-data class StatusMessage(val status: Status): Message()
+data class StateMessage(val state: ServerState): Message()
+
+data class ActionMessage(val actions: List<Action>): Message()
 
 sealed class AuthorizedMessage(val sessionId: UUID) : Message()
 class GetLobbyQueue(sessionId: UUID) : AuthorizedMessage(sessionId)

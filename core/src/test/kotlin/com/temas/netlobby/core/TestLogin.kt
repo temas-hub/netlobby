@@ -9,6 +9,7 @@ import junit.framework.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.koin.dsl.module
+import org.koin.environmentProperties
 import org.koin.test.KoinTest
 import org.koin.test.KoinTestRule
 import org.koin.test.inject

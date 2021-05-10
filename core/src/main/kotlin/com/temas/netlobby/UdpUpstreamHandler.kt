@@ -1,5 +1,6 @@
 package com.temas.netlobby
 
+import com.temas.netlobby.core.ActionMessage
 import com.temas.netlobby.core.MessageSerializer
 import com.temas.netlobby.server.SessionRegistry
 import io.netty.channel.ChannelHandlerContext
@@ -12,13 +13,14 @@ class UdpUpstreamHandler(private val sessionRegistry: SessionRegistry<DatagramCh
                          private val serializer: MessageSerializer): SimpleChannelInboundHandler<DatagramPacket>() {
 
     override fun channelRead0(ctx: ChannelHandlerContext, packet: DatagramPacket) {
-        sessionRegistry?.addSession(packet.sender(), ctx.channel() as DatagramChannel);
+        val session = sessionRegistry?.addSession(packet.sender(), ctx.channel() as DatagramChannel);
         try {
             val byteBuf = packet.content();
             if (byteBuf.readableBytes() > 0) {
                 val bytes = ByteArray(byteBuf.readableBytes())
                 byteBuf.readBytes(bytes)
                 val message = serializer.decode(bytes)
+                session?.applyActions((message as ActionMessage).actions);
                 ctx.fireChannelRead(message);
             }
 
