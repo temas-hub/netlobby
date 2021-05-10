@@ -5,6 +5,7 @@ import com.temas.netlobby.config.clientModule
 import com.temas.netlobby.config.serializationModule
 import com.temas.netlobby.core.ActionMessage
 import com.temas.netlobby.core.StateMessage
+import com.temas.netlobby.core.TransferableMessage
 import com.temas.netlobby.core.status.*
 import com.temas.netlobby.server.DefaultActionHandler
 import io.netty.channel.Channel
@@ -23,15 +24,16 @@ import kotlin.concurrent.schedule
 
 class NetLobbyBuilder {
 
-    lateinit var inboundHandler: (state: ServerState) -> Unit
+    lateinit var inboundHandler: InboundHandler
 
     class Client(private val koin: Koin): NetLobbyClient, KoinComponent {
         override fun getKoin(): Koin = this.koin
 
-
         override fun sendActions(actions: List<Action>) {
-            val channel: Channel = get<UDPClient>().connect().channel()
-            channel.writeAndFlush(ActionMessage(actions))
+            val client = get<UDPClient>()
+            val channel = client.connect().await()
+            val message = TransferableMessage(data = ActionMessage(actions))
+            channel.channel().writeAndFlush(message).await()
         }
     }
 
