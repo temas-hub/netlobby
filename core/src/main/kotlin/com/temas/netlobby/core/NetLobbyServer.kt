@@ -1,8 +1,7 @@
-package com.temas.netlobby.server
+package com.temas.netlobby.core
 
-import com.temas.netlobby.client.NetLobbyClient
+import com.temas.netlobby.core.NetLobbyClient
 import com.temas.netlobby.core.status.InboundHandler
-import com.temas.netlobby.core.status.ServerState
 
 interface NetLobbyServer {
 

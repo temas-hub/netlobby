@@ -1,4 +1,4 @@
-package com.temas.netlobby.server
+package com.temas.netlobby.core.net.udp
 
 import io.netty.bootstrap.Bootstrap
 import io.netty.channel.ChannelFuture

@@ -1,4 +1,4 @@
-package com.temas.netlobby.server
+package com.temas.netlobby.core
 
 import com.temas.netlobby.core.status.Action
 

@@ -1,6 +1,6 @@
-package com.temas.netlobby.core
+package com.temas.netlobby.core.net
 
-import com.temas.netlobby.UdpUpstreamHandler
+import com.temas.netlobby.core.net.udp.UdpUpstreamHandler
 import io.netty.channel.*
 import io.netty.handler.ssl.SslContext
 

@@ -1,5 +1,6 @@
-package com.temas.netlobby.core
+package com.temas.netlobby.core.net
 
+import com.temas.netlobby.core.MessageSerializer
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder

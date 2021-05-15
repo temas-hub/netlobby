@@ -1,8 +1,13 @@
 package com.temas.netlobby.config
 
-import com.temas.netlobby.UdpUpstreamHandler
-import com.temas.netlobby.client.UDPClient
+import com.temas.netlobby.core.net.udp.UdpUpstreamHandler
+import com.temas.netlobby.core.net.udp.UDPClient
 import com.temas.netlobby.core.*
+import com.temas.netlobby.server.ServerSessionRegistry
+import com.temas.netlobby.core.net.DefaultChannelInitializer
+import com.temas.netlobby.core.net.MessageDecoder
+import com.temas.netlobby.core.net.MessageEncoder
+import com.temas.netlobby.core.net.udp.UDPServer
 import com.temas.netlobby.server.*
 import io.netty.channel.ChannelInitializer
 import io.netty.handler.ssl.SslContext
@@ -53,6 +58,7 @@ val clientModule = module {
 }
 
 val serverModule = module {
+    single { ActionProcessor(get()) }
     single { ServerSessionRegistry(get()) } bind SessionRegistry::class
     single { UdpUpstreamHandler(sessionRegistry = get(),
                                 serializer = get()) }
@@ -60,7 +66,7 @@ val serverModule = module {
                 sessionRegistry = get(),
                 localSessionManager = get(),
                 updateBuilder = get(named("updateBuilder"))) }
-    single { LocalSessionManager() }
+    single { LocalSessionManager(get()) }
 
     single {
         UDPServer(
@@ -68,26 +74,6 @@ val serverModule = module {
             getProperty("server.port", "17999").toInt()
         )
     }
-
-}
-
-var clientWithServerModule = module {
-        single { ServerSessionRegistry(get()) } bind SessionRegistry::class
-        single { UdpUpstreamHandler(sessionRegistry = get(),
-            serializer = get()) }
-        single { UpdateSender(
-                    sessionRegistry = get(),
-                    localSessionManager = get(),
-                    updateBuilder = get(named("updateBuilder"))) }
-        single { LocalSessionManager() }
-
-        single {
-            UDPClient(
-                get(),
-                getProperty("server.host", "localhost"),
-                getProperty("server.port", "17999").toInt()
-            )
-        }
 
 }
 

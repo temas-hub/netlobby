@@ -1,5 +1,7 @@
-package com.temas.netlobby.core
+package com.temas.netlobby.core.net.tcp
 
+import com.temas.netlobby.core.AuthRequest
+import com.temas.netlobby.core.Message
 import io.netty.bootstrap.Bootstrap
 import io.netty.channel.Channel
 import io.netty.channel.ChannelFuture
@@ -8,7 +10,6 @@ import io.netty.channel.EventLoopGroup
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioSocketChannel
-import java.util.concurrent.CompletableFuture
 
 
 class TCPClient(private val channelInitializer: ChannelInitializer<SocketChannel>) {

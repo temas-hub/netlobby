@@ -1,8 +1,5 @@
 package com.temas.netlobby.core
 
-import com.temas.netlobby.config.*
-import com.temas.netlobby.server.UdpServerBuilder
-import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.koin.dsl.module
 import org.koin.test.KoinTest

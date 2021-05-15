@@ -1,4 +1,4 @@
-package com.temas.netlobby.client
+package com.temas.netlobby.core.bootstrap
 
 import org.koin.core.KoinApplication
 

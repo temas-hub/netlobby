@@ -1,4 +1,4 @@
-package com.temas.netlobby
+package com.temas.netlobby.core.net.udp
 
 import com.temas.netlobby.core.ActionMessage
 import com.temas.netlobby.core.MessageSerializer

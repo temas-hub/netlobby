@@ -1,15 +1,14 @@
-package com.temas.netlobby.client
+package com.temas.netlobby.core.bootstrap
 
 import com.temas.netlobby.config.channelModule
 import com.temas.netlobby.config.serializationModule
 import com.temas.netlobby.config.serverModule
-import com.temas.netlobby.core.ActionMessage
 import com.temas.netlobby.core.Message
-import com.temas.netlobby.core.StateMessage
+import com.temas.netlobby.core.NetLobbyClient
+import com.temas.netlobby.core.NetLobbyServer
+import com.temas.netlobby.core.net.udp.UDPServer
 import com.temas.netlobby.core.status.*
 import com.temas.netlobby.server.*
-import io.netty.channel.ChannelHandlerContext
-import io.netty.channel.SimpleChannelInboundHandler
 import org.koin.core.Koin
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -21,7 +20,7 @@ import org.koin.dsl.koinApplication
 import org.koin.dsl.module
 import org.koin.environmentProperties
 
-class LocalServerBuilder {
+class ServerBuilder {
 
     val actionHandlerModule = module {
         single(named("channelHandlers")) {
@@ -37,7 +36,6 @@ class LocalServerBuilder {
                 private val updatePeriodMs: Long): NetLobbyServer, KoinComponent {
         val updateSender: UpdateSender by inject()
         val localSessionManager: LocalSessionManager by inject()
-        val actionHandler: ActionHandler by inject()
         private lateinit var udpServer: UDPServer
 
         override fun getKoin(): Koin = this.koin
@@ -49,7 +47,7 @@ class LocalServerBuilder {
         }
 
         override fun createLocalClient(inboundHandler: InboundHandler): NetLobbyClient {
-            val session = localSessionManager.addSession(actionHandler, inboundHandler)
+            val session = localSessionManager.addSession(inboundHandler)
             return object : NetLobbyClient {
                 override fun sendActions(actions: List<Action>) {
                     session.applyActions(actions)
@@ -96,4 +94,47 @@ class LocalServerBuilder {
         val koin = buildKoin(serverModule)
         return Server(koin, updatePeriod);
     }
+}
+
+fun main() {
+    // TODO. Unit test
+    //  1. Create server and local client.
+    //  2. Send an action
+    //  3. Rebuild model
+    //  4. Send server update
+    //  5. Print the update
+//    var model: Long = 0
+//    data class TestData(val modelNumber: Long): ServerStateData()
+//
+//    val serverBuilder = LocalServerBuilder()
+//    val server = serverBuilder
+//        .withActionHandler {
+//            model++
+//            println(it)
+//        }
+//        .withUpdateBuilder { TestData(model) }
+//        .updatePeriod(0)
+//        .build();
+//
+//    server.start()
+//
+//    val client = server.createLocalClient { println((it)) }
+//    class SampleActionType : ActionType()
+//    client.sendActions(listOf(Action(SampleActionType())))
+//    server.sendUpdates()
+//
+
+    var model: Long = 0
+    data class TestData(val modelNumber: Long): ServerStateData()
+    val serverBuilder = ServerBuilder()
+    val server = serverBuilder
+        .withActionHandler {
+            model++
+            println(it)
+        }
+        .withUpdateBuilder { TestData(model) }
+        .updatePeriod(300)
+        .build();
+
+    server.start()
 }

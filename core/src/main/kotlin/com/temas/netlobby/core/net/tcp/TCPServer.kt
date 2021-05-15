@@ -1,4 +1,4 @@
-package com.temas.netlobby.core
+package com.temas.netlobby.core.net.tcp
 
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.*
