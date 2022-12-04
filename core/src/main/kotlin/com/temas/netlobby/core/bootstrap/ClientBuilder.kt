@@ -3,12 +3,10 @@ package com.temas.netlobby.core.bootstrap
 import com.temas.netlobby.config.channelModule
 import com.temas.netlobby.config.clientModule
 import com.temas.netlobby.config.serializationModule
-import com.temas.netlobby.core.ActionMessage
-import com.temas.netlobby.core.NetLobbyClient
-import com.temas.netlobby.core.StateMessage
-import com.temas.netlobby.core.TransferableMessage
+import com.temas.netlobby.core.*
 import com.temas.netlobby.core.net.udp.UDPClient
 import com.temas.netlobby.core.status.*
+import io.netty.channel.Channel
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler
 import org.koin.core.Koin
@@ -26,12 +24,10 @@ class ClientBuilder {
 
     class Client(private val koin: Koin): NetLobbyClient, KoinComponent {
         override fun getKoin(): Koin = this.koin
+        val networkClient: UDPClient = get()
 
-        override fun sendActions(actions: List<Action>) {
-            val client = get<UDPClient>()
-            val channel = client.connect().await()
-            val message = TransferableMessage(data = ActionMessage(actions))
-            channel.channel().writeAndFlush(message).await()
+        override suspend fun connect(): Connection {
+            return Connection(networkClient.connect().channel())
         }
     }
 
@@ -70,5 +66,6 @@ fun main() {
         .build()
 
     class SampleActionType : ActionType()
+    client.connect()
     client.sendActions(listOf(Action(SampleActionType())))
 }
