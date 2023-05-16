@@ -5,11 +5,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion(30)
+    namespace = "com.temas.netlobby"
+    compileSdk = 31
     defaultConfig {
         applicationId = "com.temas.netlobby.android"
-        minSdkVersion(15)
-        targetSdkVersion(30)
+        minSdk = 15
+        targetSdk = 31
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
@@ -25,6 +26,5 @@ val koinVersion : String by rootProject
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("org.koin:koin-core:$koinVersion")
-    testImplementation("org.koin:koin-test:$koinVersion")
+    implementation("io.insert-koin:koin-android:$koinVersion")
 }
