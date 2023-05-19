@@ -13,10 +13,16 @@ import io.netty.channel.ChannelInitializer
 import io.netty.handler.ssl.SslContext
 import io.netty.handler.ssl.SslContextBuilder
 import io.netty.handler.ssl.util.SelfSignedCertificate
+import org.koin.core.KoinApplication
+import org.koin.core.logger.Level
+import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.bind
+import org.koin.dsl.koinApplication
 import org.koin.dsl.module
+import org.koin.environmentProperties
 import org.nustaq.serialization.FSTConfiguration
+import java.util.*
 
 
 val serializationModule = module {
@@ -57,11 +63,30 @@ val clientModule = module {
     }
 }
 
+fun buildKoinApplication(vararg modules: Module): KoinApplication {
+    return koinApplication {
+        printLogger(Level.ERROR)
+        environmentProperties()
+        modules(
+            serializationModule,
+            channelModule,
+            *modules
+        )
+    }
+}
+
 val serverModule = module {
     single { ActionProcessor(get()) }
     single { ServerSessionRegistry(get()) } bind SessionRegistry::class
     single { UdpUpstreamHandler(sessionRegistry = get(),
                                 serializer = get()) }
+    single {
+        Timer("Update sender", false)
+    }
+    single { SchedulerTimer(
+        timer = get(),
+        updateSender = get())
+    } bind TimerService::class
     single {  UpdateSender(
                 sessionRegistry = get(),
                 localSessionManager = get(),
@@ -74,6 +99,5 @@ val serverModule = module {
             getProperty("server.port", "17999").toInt()
         )
     }
-
 }
 

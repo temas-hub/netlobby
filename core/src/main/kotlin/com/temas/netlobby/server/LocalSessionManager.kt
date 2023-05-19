@@ -3,13 +3,12 @@ package com.temas.netlobby.server
 import com.temas.netlobby.core.server.UserSession
 import com.temas.netlobby.core.status.InboundHandler
 import com.temas.netlobby.core.status.ServerState
-import com.temas.netlobby.core.status.ServerStateData
 
-class LocalSessionManager(private val actionProcessor: ActionProcessor,) {
+class LocalSessionManager(private val actionProcessor: ActionProcessor) {
 
     private val sessionList = mutableListOf<UserSession>()
 
-    class LocalStateTransport(val inboundHandler: InboundHandler) : StateUpdateTransport {
+    class LocalStateTransport(private val inboundHandler: InboundHandler) : StateUpdateTransport {
         override fun send(state: ServerState) {
             inboundHandler.invoke(state)
         }

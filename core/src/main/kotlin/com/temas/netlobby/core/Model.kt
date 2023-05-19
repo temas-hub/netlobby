@@ -7,12 +7,13 @@ data class Action(
     val data: ActionData? = null,
     val id: Int = generateId()) : Serializable {
     companion object {
-        var id = 0;
+        var id = 0
         fun generateId()= ++id
     }
 }
 
 open class ActionType: Serializable
+class DummyActionType: ActionType()
 open class ActionData: Serializable
 
 data class ServerState(
@@ -23,6 +24,7 @@ data class ServerState(
 ): Serializable
 
 open class ServerStateData: Serializable
+class DummyModel: ServerStateData()
 
 
 typealias UpdateBuilder = () -> ServerStateData

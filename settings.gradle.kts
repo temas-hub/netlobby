@@ -37,7 +37,7 @@ dependencyResolutionManagement {
     }
 }
 
-
+rootProject.name = "netlobby"
 rootProject.buildFileName = "build.gradle.kts"
-include("core", "android")
+include("core", "client", "server")
 

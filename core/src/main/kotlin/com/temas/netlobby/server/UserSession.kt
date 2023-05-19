@@ -5,13 +5,12 @@ import com.temas.netlobby.core.status.ServerState
 import com.temas.netlobby.core.status.ServerStateData
 import com.temas.netlobby.server.ActionProcessor
 import com.temas.netlobby.server.StateUpdateTransport
-import kotlin.math.max
 
 
 class UserSession(
-    val stateTransport: StateUpdateTransport,
+    private val stateTransport: StateUpdateTransport,
     protected val actionProcessor: ActionProcessor,
-    val playerId: Int
+    private val playerId: Int
 ) {
     protected var lastActionId: Int = -1
 
@@ -21,8 +20,10 @@ class UserSession(
     }
 
     fun applyActions(actions: List<Action>) {
-        actionProcessor.process(actions)
-        lastActionId = max(lastActionId, actions[actions.size - 1].id)
+        val processedIds = actionProcessor.process(actions)
+        if (processedIds.isNotEmpty()) {
+            lastActionId = processedIds.last()
+        }
     }
 
 
