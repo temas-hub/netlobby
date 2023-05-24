@@ -3,7 +3,7 @@ package com.temas.netlobby.core.bootstrap
 import com.temas.netlobby.config.channelModule
 import com.temas.netlobby.config.clientModule
 import com.temas.netlobby.config.serializationModule
-import com.temas.netlobby.core.*
+import com.temas.netlobby.core.api.NetLobbyClient
 import com.temas.netlobby.core.net.udp.InboundChannelHandler
 import com.temas.netlobby.core.status.*
 import org.koin.core.logger.Level
@@ -12,6 +12,9 @@ import org.koin.dsl.koinApplication
 import org.koin.dsl.module
 import org.koin.environmentProperties
 
+/**
+ * Koin application builder for client
+ */
 class ClientBuilder {
 
     val channelHandlerModule = module {
@@ -25,6 +28,9 @@ class ClientBuilder {
     fun withInboundHandler(inboundHandler: (state: ServerState) -> Unit) = apply { this.inboundHandler = inboundHandler }
 
 
+    /**
+     * Builds client
+     */
     fun build(): NetLobbyClient {
         val koinApp = koinApplication {
             printLogger(Level.ERROR)

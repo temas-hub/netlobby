@@ -3,12 +3,17 @@ package com.temas.netlobby.config
 import com.temas.netlobby.core.net.udp.UdpUpstreamHandler
 import com.temas.netlobby.core.net.udp.UDPClient
 import com.temas.netlobby.core.*
-import com.temas.netlobby.server.ServerSessionRegistry
+import com.temas.netlobby.server.communication.ServerSessionRegistry
 import com.temas.netlobby.core.net.DefaultChannelInitializer
 import com.temas.netlobby.core.net.MessageDecoder
 import com.temas.netlobby.core.net.MessageEncoder
 import com.temas.netlobby.core.net.udp.UDPServer
 import com.temas.netlobby.server.*
+import com.temas.netlobby.server.communication.LocalSessionRegistry
+import com.temas.netlobby.server.communication.SessionRegistry
+import com.temas.netlobby.server.updatesender.SchedulerTimer
+import com.temas.netlobby.server.updatesender.TimerService
+import com.temas.netlobby.server.updatesender.UpdateSender
 import io.netty.channel.ChannelInitializer
 import io.netty.handler.ssl.SslContext
 import io.netty.handler.ssl.SslContextBuilder
@@ -89,9 +94,9 @@ val serverModule = module {
     } bind TimerService::class
     single {  UpdateSender(
                 sessionRegistry = get(),
-                localSessionManager = get(),
+                localSessionRegistry = get(),
                 updateBuilder = get(named("updateBuilder"))) }
-    single { LocalSessionManager(get()) }
+    single { LocalSessionRegistry(get()) }
 
     single {
         UDPServer(

@@ -1,9 +1,7 @@
 package com.temas.netlobby.core.net.tcp
 
-import com.temas.netlobby.core.AuthRequest
 import com.temas.netlobby.core.Message
 import io.netty.bootstrap.Bootstrap
-import io.netty.channel.Channel
 import io.netty.channel.ChannelFuture
 import io.netty.channel.ChannelInitializer
 import io.netty.channel.EventLoopGroup
@@ -12,8 +10,11 @@ import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioSocketChannel
 
 
+/**
+ * Holds and manages netty tcp client.
+ * TODO: will be used for lobby management and authentication
+ */
 class TCPClient(private val channelInitializer: ChannelInitializer<SocketChannel>) {
-//    private lateinit var channel : Channel
 
     fun connect(host: String, port: Int): ChannelFuture {
         val group: EventLoopGroup = NioEventLoopGroup()
@@ -30,9 +31,5 @@ class TCPClient(private val channelInitializer: ChannelInitializer<SocketChannel
     fun send(host: String, port: Int, msg : Message): ChannelFuture {
         val channelFuture = connect(host, port)
         return channelFuture.channel().writeAndFlush(msg)
-    }
-
-    fun sendLogin(channel : Channel, authRequest: AuthRequest) {
-        channel.writeAndFlush(authRequest)
     }
 }

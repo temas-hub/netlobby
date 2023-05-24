@@ -3,6 +3,7 @@ package com.temas.netlobby.core.bootstrap
 import com.temas.netlobby.config.buildKoinApplication
 import com.temas.netlobby.config.serverModule
 import com.temas.netlobby.core.*
+import com.temas.netlobby.core.api.NetLobbyServer
 import com.temas.netlobby.core.status.*
 import com.temas.netlobby.server.*
 import org.koin.core.KoinApplication
@@ -10,6 +11,9 @@ import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
+/**
+ * Koin application builder for server
+ */
 class ApplicationBuilder {
     lateinit var actionHandler: ActionHandler
     lateinit var updateBuilder: UpdateBuilder
@@ -29,6 +33,9 @@ class ApplicationBuilder {
         }
     }
 
+    /**
+     * Builds koin application
+     */
     fun buildKoin(): KoinApplication {
         val koinApp = buildKoinApplication(
                 serverModule,
@@ -40,6 +47,9 @@ class ApplicationBuilder {
 }
 
 
+/**
+ * Server builder
+ */
 class ServerBuilder {
 
     private lateinit var koinApplication: KoinApplication

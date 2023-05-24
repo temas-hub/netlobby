@@ -2,14 +2,21 @@ package com.temas.netlobby.core.net.udp
 
 import com.temas.netlobby.core.ActionMessage
 import com.temas.netlobby.core.MessageSerializer
-import com.temas.netlobby.server.SessionRegistry
+import com.temas.netlobby.server.communication.SessionRegistry
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler
 import io.netty.channel.socket.DatagramChannel
 import io.netty.channel.socket.DatagramPacket
 import java.lang.Exception
 
-class UdpUpstreamHandler(private val sessionRegistry: SessionRegistry<DatagramChannel>? = null,
+import java.net.InetSocketAddress
+
+/**
+ * Inbound handler on server side for receiving messages from clients. It registers communication channels.
+ * Once it receives a message from a new client it registers communication session for this client.
+ * Then each message is decoded into ActionMessage and applied to the session.
+ */
+class UdpUpstreamHandler(private val sessionRegistry: SessionRegistry<InetSocketAddress, DatagramChannel>? = null,
                          private val serializer: MessageSerializer): SimpleChannelInboundHandler<DatagramPacket>() {
 
     override fun channelRead0(ctx: ChannelHandlerContext, packet: DatagramPacket) {

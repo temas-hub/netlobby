@@ -7,6 +7,9 @@ import io.netty.channel.socket.DatagramPacket
 import io.netty.handler.codec.MessageToMessageEncoder
 
 
+/**
+ * Encodes object into bytes before sending
+ */
 class MessageEncoder(private val serializer: MessageSerializer): MessageToMessageEncoder<TransferableMessage>() {
 
     override fun encode(ctx: ChannelHandlerContext, msg: TransferableMessage, out: MutableList<Any>) {

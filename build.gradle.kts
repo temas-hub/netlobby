@@ -2,6 +2,7 @@
 
 plugins {
     kotlin("jvm") version "1.8.21"
+    id("org.jetbrains.dokka") version "1.8.10"
 
     /**
      * Use `apply false` in the top-level build.gradle file to add a Gradle
@@ -15,8 +16,18 @@ plugins {
     id("org.jetbrains.kotlin.android") version "1.8.20" apply false
 }
 
+subprojects {
+    apply(plugin = "org.jetbrains.dokka")
+}
+
 group = "com.temas.netlobby"
 version = "0.2"
+
+tasks.register<Jar>("dokkaHtmlJar") {
+    dependsOn(tasks.dokkaHtmlMultiModule)
+    from(tasks.dokkaHtmlMultiModule.flatMap { it.outputDirectory })
+    archiveClassifier.set("html-docs")
+}
 
 
 

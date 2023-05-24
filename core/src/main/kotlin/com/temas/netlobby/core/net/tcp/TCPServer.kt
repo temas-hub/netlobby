@@ -8,6 +8,10 @@ import io.netty.channel.socket.nio.NioServerSocketChannel
 import io.netty.handler.logging.LogLevel
 import io.netty.handler.logging.LoggingHandler
 
+/**
+ * Holds and manages netty tcp server.
+ * TODO: will be used for lobby management and authentication
+ */
 class TCPServer(private val channelInitializer: ChannelInitializer<SocketChannel>) {
 
     fun init(sslEnabled: Boolean, port: Int) {

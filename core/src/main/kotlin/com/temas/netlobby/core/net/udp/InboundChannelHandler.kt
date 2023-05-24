@@ -6,7 +6,7 @@ import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler
 
 /**
- * Created by azhdanov on 18.05.2023.
+ * Netty handler for receiving updates from server. It just passes updates to the updateHandler
  */
 class InboundChannelHandler(private val updateHandler: InboundHandler): SimpleChannelInboundHandler<StateMessage>() {
     override fun channelRead0(ctx: ChannelHandlerContext, msg: StateMessage) {

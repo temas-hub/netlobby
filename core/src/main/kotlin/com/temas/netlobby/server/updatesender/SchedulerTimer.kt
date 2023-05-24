@@ -1,11 +1,11 @@
-package com.temas.netlobby.server
+package com.temas.netlobby.server.updatesender
 
 import java.util.*
 import kotlin.concurrent.schedule
 
-
 /**
- * Created by azhdanov on 19.05.2023.
+ * Default implementation timer service which schedule a task using java Timer
+ * @see java.util.Timer
  */
 class SchedulerTimer(
     private val timer: Timer,

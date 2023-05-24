@@ -2,6 +2,9 @@ package com.temas.netlobby.core.status
 
 import java.io.Serializable
 
+/**
+ * Data transfer object for action performed be a gamer like move, attack, etc.
+ */
 data class Action(
     val type: ActionType,
     val data: ActionData? = null,
@@ -12,10 +15,23 @@ data class Action(
     }
 }
 
+/**
+ * Action type may be useful to group and filter actions on server side
+ */
 open class ActionType: Serializable
+/**
+ * Dummy action type for testing
+ */
 class DummyActionType: ActionType()
+
+/**
+ * Action data is a payload for action type
+ */
 open class ActionData: Serializable
 
+/**
+ * Data transfer object for server state to be sent to client
+ */
 data class ServerState(
     val playerId: Int,
     val serverTimestamp: Long,
@@ -23,7 +39,13 @@ data class ServerState(
     val serverData: ServerStateData
 ): Serializable
 
+/**
+ * Server state data is a payload for server state
+ */
 open class ServerStateData: Serializable
+/**
+ * Dummy server state data for testing
+ */
 class DummyModel: ServerStateData()
 
 

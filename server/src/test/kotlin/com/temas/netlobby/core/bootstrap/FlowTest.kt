@@ -2,8 +2,8 @@ import com.temas.netlobby.core.bootstrap.ApplicationBuilder
 import com.temas.netlobby.core.bootstrap.ServerBuilder
 import com.temas.netlobby.core.net.udp.UDPServer
 import com.temas.netlobby.core.status.*
-import com.temas.netlobby.server.TimerService
-import com.temas.netlobby.server.UpdateSender
+import com.temas.netlobby.server.updatesender.TimerService
+import com.temas.netlobby.server.updatesender.UpdateSender
 import io.netty.channel.ChannelFuture
 import org.junit.Rule
 import org.junit.Test
