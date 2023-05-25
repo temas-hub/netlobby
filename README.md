@@ -1,4 +1,4 @@
-Netlobby is a simple library for client server multiplayer games. It is based on Netty and uses FST for serialization.
+Netlobby is a simple library for client server multiplayer games. 
 
 ## Principles
 * Server is the source of truth. It maintains game state and sends it to clients
