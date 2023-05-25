@@ -1,7 +1,7 @@
 package com.temas.netlobby.core.net
 
 import com.temas.netlobby.core.MessageSerializer
-import com.temas.netlobby.core.TransferableMessage
+import com.temas.netlobby.core.model.TransferableMessage
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.socket.DatagramPacket
 import io.netty.handler.codec.MessageToMessageEncoder

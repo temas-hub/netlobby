@@ -1,6 +1,6 @@
 package com.temas.netlobby.core.net.udp
 
-import com.temas.netlobby.core.ActionMessage
+import com.temas.netlobby.core.model.ActionMessage
 import com.temas.netlobby.core.MessageSerializer
 import com.temas.netlobby.server.communication.SessionRegistry
 import io.netty.channel.ChannelHandlerContext

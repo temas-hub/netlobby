@@ -1,7 +1,7 @@
 package com.temas.netlobby.core.net.udp
 
-import com.temas.netlobby.core.StateMessage
-import com.temas.netlobby.core.status.InboundHandler
+import com.temas.netlobby.core.model.InboundHandler
+import com.temas.netlobby.core.model.StateMessage
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler
 

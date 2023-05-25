@@ -1,6 +1,6 @@
 package com.temas.netlobby.core.bootstrap
 
-import com.temas.netlobby.core.Connection
+import com.temas.netlobby.core.net.Connection
 import com.temas.netlobby.core.api.NetLobbyClient
 import com.temas.netlobby.core.net.udp.UDPClient
 import org.koin.core.Koin

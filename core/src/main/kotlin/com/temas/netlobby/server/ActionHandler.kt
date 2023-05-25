@@ -1,6 +1,7 @@
 package com.temas.netlobby.server
 
-import com.temas.netlobby.core.status.Action
+import com.temas.netlobby.core.model.Action
+
 
 /**
  *  Server side handler for game actions like move, attack, etc.

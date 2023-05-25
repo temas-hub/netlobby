@@ -1,7 +1,5 @@
-package com.temas.netlobby.core
+package com.temas.netlobby.core.model
 
-import com.temas.netlobby.core.status.Action
-import com.temas.netlobby.core.status.ServerState
 import java.io.Serializable
 import java.net.InetSocketAddress
 

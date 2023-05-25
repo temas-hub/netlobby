@@ -1,4 +1,4 @@
-package com.temas.netlobby.core.status
+package com.temas.netlobby.core.model
 
 import java.io.Serializable
 
@@ -8,7 +8,8 @@ import java.io.Serializable
 data class Action(
     val type: ActionType,
     val data: ActionData? = null,
-    val id: Int = generateId()) : Serializable {
+    val id: Int = generateId()
+) : Serializable {
     companion object {
         var id = 0
         fun generateId()= ++id

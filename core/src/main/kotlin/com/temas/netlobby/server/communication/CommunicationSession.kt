@@ -1,8 +1,8 @@
 package com.temas.netlobby.server.communication
 
-import com.temas.netlobby.core.status.Action
-import com.temas.netlobby.core.status.ServerState
-import com.temas.netlobby.core.status.ServerStateData
+import com.temas.netlobby.core.model.Action
+import com.temas.netlobby.core.model.ServerState
+import com.temas.netlobby.core.model.ServerStateData
 import com.temas.netlobby.server.ActionProcessor
 
 /**

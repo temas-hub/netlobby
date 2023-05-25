@@ -1,11 +1,11 @@
 package com.temas.netlobby.core.bootstrap
 
+import com.temas.netlobby.core.model.Action
+import com.temas.netlobby.core.model.InboundHandler
 import com.temas.netlobby.core.api.IConnection
 import com.temas.netlobby.core.api.NetLobbyClient
 import com.temas.netlobby.core.api.NetLobbyServer
 import com.temas.netlobby.core.net.udp.UDPServer
-import com.temas.netlobby.core.status.Action
-import com.temas.netlobby.core.status.InboundHandler
 import com.temas.netlobby.server.generator.LocalSessionIdGenerator
 import com.temas.netlobby.server.communication.LocalSessionRegistry
 import com.temas.netlobby.server.updatesender.TimerService

@@ -1,7 +1,7 @@
-import com.temas.netlobby.core.bootstrap.ApplicationBuilder
 import com.temas.netlobby.core.bootstrap.ServerBuilder
+import com.temas.netlobby.core.bootstrap.ServerKoinContext
+import com.temas.netlobby.core.model.*
 import com.temas.netlobby.core.net.udp.UDPServer
-import com.temas.netlobby.core.status.*
 import com.temas.netlobby.server.updatesender.TimerService
 import com.temas.netlobby.server.updatesender.UpdateSender
 import io.netty.channel.ChannelFuture
@@ -44,23 +44,22 @@ class FlowTest {
         val model = spy(TestModel())
         val spyUpdateBuilder = spy(TestUpdateBuilder())
         val spyUpdatesHandler = spy(UpdatesHandler())
-        val app = ApplicationBuilder()
+
+        val server = ServerBuilder()
             .withActionHandler {
                 model.update()
                 it.id
             }
             .withUpdateBuilder { spyUpdateBuilder.build() }
-            .buildKoin()
+            .updatePeriod(100)
+            .build()
+
+        val app = ServerKoinContext.koinApp!!
         val udpServerMock = app.koin.declareMock<UDPServer>()
         Mockito.`when`(udpServerMock.init()).thenReturn(Mockito.mock(ChannelFuture::class.java))
         val updateSender = spy(app.koin.get<UpdateSender>())
         val timerMock = app.koin.declareMock<TimerService>()
         Mockito.`when`(timerMock.start(any())).then { updateSender.sendUpdates() }
-
-        val server = ServerBuilder()
-            .withApplication(app)
-            .updatePeriod(100)
-            .build()
 
         val client = server.createLocalClient(spyUpdatesHandler::invoke)
         server.start()

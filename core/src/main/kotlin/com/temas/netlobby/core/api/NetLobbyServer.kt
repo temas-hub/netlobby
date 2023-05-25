@@ -1,6 +1,7 @@
 package com.temas.netlobby.core.api
 
-import com.temas.netlobby.core.status.InboundHandler
+import com.temas.netlobby.core.model.InboundHandler
+
 
 interface NetLobbyServer {
 

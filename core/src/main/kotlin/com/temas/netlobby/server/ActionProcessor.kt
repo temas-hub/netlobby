@@ -1,6 +1,7 @@
 package com.temas.netlobby.server
 
-import com.temas.netlobby.core.status.Action
+import com.temas.netlobby.core.model.Action
+
 
 /**
  * A default processor for game actions which processes them sequentially.

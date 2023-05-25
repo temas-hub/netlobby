@@ -1,7 +1,7 @@
 package com.temas.netlobby.server.communication
 
-import com.temas.netlobby.core.status.InboundHandler
-import com.temas.netlobby.core.status.ServerState
+import com.temas.netlobby.core.model.InboundHandler
+import com.temas.netlobby.core.model.ServerState
 import com.temas.netlobby.server.ActionProcessor
 import com.temas.netlobby.server.generator.PlayerIdGenerator
 

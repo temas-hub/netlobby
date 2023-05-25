@@ -2,24 +2,21 @@ package com.temas.netlobby.core.bootstrap
 
 import com.temas.netlobby.config.buildKoinApplication
 import com.temas.netlobby.config.serverModule
-import com.temas.netlobby.core.*
 import com.temas.netlobby.core.api.NetLobbyServer
-import com.temas.netlobby.core.status.*
+import com.temas.netlobby.core.model.*
 import com.temas.netlobby.server.*
-import org.koin.core.KoinApplication
 import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 /**
- * Koin application builder for server
+ * Server builder uses koin for dependency injection
  */
-class ApplicationBuilder {
-    lateinit var actionHandler: ActionHandler
-    lateinit var updateBuilder: UpdateBuilder
+class ServerBuilder {
 
-    fun withActionHandler(handler: ActionHandler) = apply {  this.actionHandler = handler }
-    fun withUpdateBuilder(updateBuilder: UpdateBuilder) = apply { this.updateBuilder = updateBuilder }
+    private lateinit var actionHandler: ActionHandler
+    private lateinit var updateBuilder: UpdateBuilder
+    private var updatePeriod: Long = 60
 
     private fun actionHandlerModule(): Module {
         return module {
@@ -33,50 +30,30 @@ class ApplicationBuilder {
         }
     }
 
-    /**
-     * Builds koin application
-     */
-    fun buildKoin(): KoinApplication {
-        val koinApp = buildKoinApplication(
-                serverModule,
-                actionHandlerModule()
-            )
-        ServerKoinContext.koinApp = koinApp
-        return koinApp
-    }
-}
-
-
-/**
- * Server builder
- */
-class ServerBuilder {
-
-    private lateinit var koinApplication: KoinApplication
-    private var updatePeriod: Long = 60
+    fun withActionHandler(handler: ActionHandler) = apply {  this.actionHandler = handler }
+    fun withUpdateBuilder(updateBuilder: UpdateBuilder) = apply { this.updateBuilder = updateBuilder }
     fun updatePeriod(ms: Long) = apply { this.updatePeriod = ms}
-    fun withApplication(koinApplication: KoinApplication) = apply { this.koinApplication = koinApplication }
 
     fun build(): NetLobbyServer {
-        return Server(koinApplication.koin, updatePeriod)
+        val koinApp = buildKoinApplication(
+            serverModule,
+            actionHandlerModule()
+        )
+        ServerKoinContext.koinApp = koinApp
+        return Server(koinApp.koin, updatePeriod)
     }
 }
 
 fun main() {
     var model: Long = 0
 
-    val app = ApplicationBuilder()
+    val server = ServerBuilder()
         .withActionHandler {
             model++
             println(it)
             it.id
         }
         .withUpdateBuilder { DummyModel() }
-        .buildKoin()
-
-
-    val server = ServerBuilder()
-        .withApplication(app)
         .updatePeriod(300)
         .build()
 

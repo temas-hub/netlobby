@@ -1,6 +1,6 @@
 package com.temas.netlobby.core.net.tcp
 
-import com.temas.netlobby.core.Message
+import com.temas.netlobby.core.model.Message
 import io.netty.bootstrap.Bootstrap
 import io.netty.channel.ChannelFuture
 import io.netty.channel.ChannelInitializer

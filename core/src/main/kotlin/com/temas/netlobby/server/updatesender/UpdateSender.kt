@@ -1,6 +1,6 @@
 package com.temas.netlobby.server.updatesender
 
-import com.temas.netlobby.core.status.UpdateBuilder
+import com.temas.netlobby.core.model.UpdateBuilder
 import com.temas.netlobby.server.communication.LocalSessionRegistry
 import com.temas.netlobby.server.communication.ServerSessionRegistry
 
@@ -10,7 +10,7 @@ import com.temas.netlobby.server.communication.ServerSessionRegistry
 class UpdateSender(
     private val sessionRegistry: ServerSessionRegistry,
     private val localSessionRegistry: LocalSessionRegistry,
-    private val updateBuilder: UpdateBuilder,
+    private val updateBuilder: UpdateBuilder
 ) {
 
     fun sendUpdates() {

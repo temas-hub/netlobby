@@ -1,5 +1,6 @@
 package com.temas.netlobby.core
 
+import com.temas.netlobby.core.model.Message
 import org.nustaq.serialization.FSTConfiguration
 
 /**

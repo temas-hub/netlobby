@@ -1,8 +1,8 @@
 package com.temas.netlobby.server.communication
 
-import com.temas.netlobby.core.StateMessage
-import com.temas.netlobby.core.TransferableMessage
-import com.temas.netlobby.core.status.ServerState
+import com.temas.netlobby.core.model.ServerState
+import com.temas.netlobby.core.model.StateMessage
+import com.temas.netlobby.core.model.TransferableMessage
 import java.net.InetSocketAddress
 import io.netty.channel.socket.DatagramChannel
 

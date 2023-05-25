@@ -3,6 +3,8 @@
 plugins {
     kotlin("jvm") version "1.8.21"
     id("org.jetbrains.dokka") version "1.8.10"
+    `maven-publish`
+    signing
 
     /**
      * Use `apply false` in the top-level build.gradle file to add a Gradle
@@ -22,6 +24,11 @@ subprojects {
 
 group = "com.temas.netlobby"
 version = "0.2"
+
+tasks.register<Jar>("sourcesJar") {
+    archiveClassifier.set("sources")
+    from(sourceSets.main.get().allJava)
+}
 
 tasks.register<Jar>("dokkaHtmlJar") {
     dependsOn(tasks.dokkaHtmlMultiModule)

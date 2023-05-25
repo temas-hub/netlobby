@@ -1,7 +1,9 @@
-package com.temas.netlobby.core
+package com.temas.netlobby.core.net
 
 import com.temas.netlobby.core.api.IConnection
-import com.temas.netlobby.core.status.Action
+import com.temas.netlobby.core.model.Action
+import com.temas.netlobby.core.model.ActionMessage
+import com.temas.netlobby.core.model.TransferableMessage
 import io.netty.channel.Channel
 
 /**

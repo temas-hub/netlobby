@@ -1,10 +1,11 @@
 package com.temas.netlobby.core.api
 
-import com.temas.netlobby.core.status.Action
+import com.temas.netlobby.core.model.Action
+
 
 /**
  * Connection to send game actions to server
- * @see com.temas.netlobby.core.status.Action
+ * @see com.temas.netlobby.core.model.Action
  */
 interface IConnection {
 
